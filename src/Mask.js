@@ -1,28 +1,28 @@
-export default (value, mask) => {
-  value = String(value);
-  let text = '';
-  let specialCharacter = 0;
+import config from './config';
 
-  for (let index = 0, indexAux = 1; indexAux && index < mask.length; index += 1) {
-    const character = value.charAt(index);
-    const maskCharacter = mask.charAt(index + specialCharacter);
+class Mask {
 
-    switch (maskCharacter) {
-      case '#' : if (/\d/.test(character)) { text += character; } else { indexAux = 0; } break;
-      case 'A' : if (/[a-z]/i.test(character)) { text += character; } else { indexAux = 0; } break;
-      case 'N' : if (/[a-z0-9]/i.test(character)) { text += character; } else { indexAux = 0; } break;
-      case 'X' : text += character; break;
-      default :
-        if (character) {
-          text += maskCharacter;
-          if (maskCharacter !== character) {
-            text += character;
-            specialCharacter += 1;
-          }
-        }
-        break;
-    }
+  constructor(mask) {
+    this.mask = mask;
+    this.config = config;
   }
 
-  return text;
-};
+  exec(text) {
+    return text.replace(/^\+?([0-9]{2})([0-9]{4})([0-9]{4})$/, '($1)$2-$3');
+  }
+  build(text, format, defaultValue = '') {
+    const regexp = this.config[format];
+    let aux = 0;
+    const formated = regexp.map((val, index) => {
+      if (val instanceof RegExp) {
+        return text[index + aux] || defaultValue;
+      }
+      const value = !defaultValue && !text[index + aux] ? '' : val;
+      aux -= 1;
+      return value;
+    }).join('');
+    return formated;
+  }
+}
+
+export default Mask;
