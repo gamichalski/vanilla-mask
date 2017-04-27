@@ -12,12 +12,18 @@ class Mask {
   }
   build(text, format, defaultValue = '') {
     const regexp = this.config[format];
+    const chars = text.split('');
+
     let aux = 0;
     const formated = regexp.map((val, index) => {
       if (val instanceof RegExp) {
-        return text[index + aux] || defaultValue;
+        const isValid = val.test(chars[index + aux]);
+        if (!isValid && chars[index + aux]) {
+          chars.splice(index + aux, 1);
+        }
+        return chars[index + aux] || defaultValue;
       }
-      const value = !defaultValue && !text[index + aux] ? '' : val;
+      const value = !defaultValue && !chars[index + aux] ? '' : val;
       aux -= 1;
       return value;
     }).join('');

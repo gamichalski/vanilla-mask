@@ -3,7 +3,7 @@ import Mask from '../src/Mask';
 
 describe('Mask', () => {
 
-  describe('Mask()', () => {
+  describe('build with number parameters', () => {
 
     const mask = new Mask();
 
@@ -25,4 +25,17 @@ describe('Mask', () => {
     });
   });
 
+  describe('build with number parameters', () => {
+
+    const mask = new Mask();
+
+    it('should return inpletnumber phone formatted with others caracters ', () => {
+      const masked = mask.build('9A9A9A9A9A9A', 'phone');
+      expect(masked).to.be.equal('(99)9999-');
+    });
+    it('should return inpletnumber phone formatted with others caracters init not number ', () => {
+      const masked = mask.build('A9A9A9A9A9A9A', 'phone');
+      expect(masked).to.be.equal('(99)9999-');
+    });
+  });
 });
