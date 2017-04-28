@@ -8,7 +8,6 @@
   "contributors": [
     "Gabriel Andrade Michalski <g.amichalski@gmail.com>"
   ],
-  "private": true,
   "scripts": {
     "lint": "eslint src test tools",
     "test": "mocha --compilers js:babel-register",
