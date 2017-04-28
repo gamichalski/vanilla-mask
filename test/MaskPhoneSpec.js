@@ -90,20 +90,4 @@ describe('Mask', () => {
       expect(masked).to.be.equal('(99)9999');
     });
   });
-
-  describe('build with number and others parameters', () => {
-
-    const mask = new Mask();
-
-    // TODO describe
-    it('should return partial of number phone formatted with parameters letters and numbers randomly interspersed', () => {
-      const masked = mask.build('11111111', 'date');
-      expect(masked).to.be.equal('11/11/1111');
-    });
-    // TODO describe
-    it('should return completed of number phone formatted with parameters letters and numbers randomly interspersed', () => {
-      const masked = mask.build('1DAS1DASD1S1DSA111DSADSA1', 'date');
-      expect(masked).to.be.equal('11/11/1111');
-    });
-  });
 });
