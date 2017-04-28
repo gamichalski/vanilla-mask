@@ -3,91 +3,37 @@ import Mask from '../src/Mask';
 
 describe('Mask', () => {
 
-  describe('build with number parameters', () => {
+  describe('phone', () => {
 
     const mask = new Mask();
 
-    it('should return number phone formatted', () => {
-      const masked = mask.build('9999999999', 'phone');
-      expect(masked).to.be.equal('(99)9999-9999');
+    it('should return complete phone formatted', () => {
+      const masked = mask.build('2222222222', 'phone');
+      expect(masked).to.be.equal('(22)2222-2222');
     });
-    it('should return inpletnumber phone formatted not specified default value ', () => {
-      const masked = mask.build('99999', 'phone');
-      expect(masked).to.be.equal('(99)999');
+    it('should return complete phone formatted with sequence and limit characters', () => {
+      const masked = mask.build('1234567891234567', 'phone');
+      expect(masked).to.be.equal('(12)3456-7891');
     });
-  });
-
-  describe('build with number parameters and default value underscore "_"', () => {
-
-    const mask = new Mask();
-
-    it('should return number phone formatted', () => {
-      const masked = mask.build('9999999999', 'phone', '_');
-      expect(masked).to.be.equal('(99)9999-9999');
+    it('should return complete phone formatted with parameters letters and numbers randomly interspersed', () => {
+      const masked = mask.build('1A2A5N52D26DAS51DKD581D2K12', 'phone');
+      expect(masked).to.be.equal('(12)5522-6515');
     });
-    it('should return completed number phone formatted', () => {
-      const masked = mask.build('9999999999999', 'phone', '_');
-      expect(masked).to.be.equal('(99)9999-9999');
+    it('should return partial phone with placehold(underscore) complete formatted with parameters letters and numbers randomly interspersed', () => {
+      const masked = mask.build('1DSA11A', 'phone', '_');
+      expect(masked).to.be.equal('(11)1___-____');
     });
-    it('should return patial number phone formatted with five numbers', () => {
-      const masked = mask.build('99999', 'phone', '_');
-      expect(masked).to.be.equal('(99)999_-____');
+    it('should return partial phone formatted', () => {
+      const masked = mask.build('1111', 'phone');
+      expect(masked).to.be.equal('(11)11');
     });
-    it('should return patial number phone formatted with two numbers', () => {
-      const masked = mask.build('99', 'phone', '_');
-      expect(masked).to.be.equal('(99)____-____');
+    it('should return partial phone formatted with placehold(space)', () => {
+      const masked = mask.build('111', 'phone', ' ');
+      expect(masked).to.be.equal('(11)1   -    ');
     });
-    it('should return mask completed and with underscore', () => {
+    it('should return placehold(underscore) complete phone formatted', () => {
       const masked = mask.build('', 'phone', '_');
       expect(masked).to.be.equal('(__)____-____');
-    });
-  });
-
-  describe('build with number parameters and default value space " "', () => {
-
-    const mask = new Mask();
-
-    it('should return number phone formatted', () => {
-      const masked = mask.build('9999999999', 'phone', '_');
-      expect(masked).to.be.equal('(99)9999-9999');
-    });
-    it('should return completed number phone formatted', () => {
-      const masked = mask.build('9999999999999', 'phone', ' ');
-      expect(masked).to.be.equal('(99)9999-9999');
-    });
-    it('should return patial number phone formatted with six numbers', () => {
-      const masked = mask.build('999999', 'phone', ' ');
-      expect(masked).to.be.equal('(99)9999-    ');
-    });
-    it('should return patial number phone formatted with three numbers', () => {
-      const masked = mask.build('99', 'phone', ' ');
-      expect(masked).to.be.equal('(99)    -    ');
-    });
-    it('should return mask completed and with space', () => {
-      const masked = mask.build('', 'phone', ' ');
-      expect(masked).to.be.equal('(  )    -    ');
-    });
-  });
-
-  describe('build with number and others parameters', () => {
-
-    const mask = new Mask();
-
-    it('should return partial of number phone formatted with parameters letters and numbers randomly interspersed', () => {
-      const masked = mask.build('9A9KA8ABC645AK9A9A94589A', 'phone');
-      expect(masked).to.be.equal('(99)8645-9994');
-    });
-    it('should return completed of number phone formatted with parameters letters and numbers randomly interspersed', () => {
-      const masked = mask.build('9A9KA9ABCAK9A9A9A', 'phone');
-      expect(masked).to.be.equal('(99)9999');
-    });
-    it('should return partial of number phone formatted with parameters letters and number interspersed and starting letter "A"', () => {
-      const masked = mask.build('9A9A9A9A9A9A', 'phone');
-      expect(masked).to.be.equal('(99)9999');
-    });
-    it('should return partial of number phone formatted with parameters starting letter "A" ', () => {
-      const masked = mask.build('A9A9A9A9A9A9A', 'phone');
-      expect(masked).to.be.equal('(99)9999');
     });
   });
 });
