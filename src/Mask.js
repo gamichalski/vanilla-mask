@@ -19,7 +19,7 @@ class Mask {
     return this.build(text, regexp, placeholder);
   }
 
-  build(text, mask, placeholder = '', debug = false) {
+  build(text, mask, placeholder = '') {
     const regexp = Array.isArray(mask) ? mask : this.config[mask];
     const chars = text.split('');
     const formated = [];
