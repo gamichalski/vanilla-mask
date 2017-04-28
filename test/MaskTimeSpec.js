@@ -3,7 +3,7 @@ import Mask from '../src/Mask';
 
 describe('Mask', () => {
 
-  describe('mask time', () => {
+  describe('time', () => {
 
     const mask = new Mask();
 
