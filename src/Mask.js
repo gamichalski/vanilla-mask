@@ -1,27 +1,32 @@
-import config from './config';
+import config from './locale/pt-BR';
 
 class Mask {
 
-  constructor(mask) {
-    this.mask = mask;
+  constructor() {
     this.config = config;
   }
 
-  exec(text) {
-    return text.replace(/^\+?([0-9]{2})([0-9]{4})([0-9]{4})$/, '($1)$2-$3');
-  }
   build(text, format, defaultValue = '') {
     const regexp = this.config[format];
-    let aux = 0;
-    const formated = regexp.map((val, index) => {
-      if (val instanceof RegExp) {
-        return text[index + aux] || defaultValue;
+    const chars = text.split('');
+    const formated = [];
+
+    for (let index = 0, indexChars = 0; index < regexp.length; index += 1, indexChars += 1) {
+      if (regexp[index] instanceof RegExp) {
+        const isValid = regexp[index].test(chars[indexChars]);
+        if (isValid && chars[indexChars]) {
+          formated.push(chars[indexChars]);
+        } else if (chars[indexChars]) {
+          index -= 1;
+        } else {
+          formated.push(defaultValue);
+        }
+      } else if (chars[indexChars + 1] || defaultValue) {
+        formated.push(regexp[index]);
+        indexChars -= 1;
       }
-      const value = !defaultValue && !text[index + aux] ? '' : val;
-      aux -= 1;
-      return value;
-    }).join('');
-    return formated;
+    }
+    return formated.join('');
   }
 }
 
