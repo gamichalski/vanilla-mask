@@ -1,39 +1,120 @@
 import { expect } from 'chai';
 import Mask from '../src/Mask';
+import config from './config/default';
 
 describe('Mask', () => {
 
-  describe('phone', () => {
+  describe('simulate dynamic numbers insert with type', () => {
 
-    const mask = new Mask();
+    const mask = new Mask(config);
+    let text = '';
 
     it('should return complete phone formatted', () => {
-      const masked = mask.build('2222222222', 'phone');
-      expect(masked).to.be.equal('(22)2222-2222');
+      text += '1';
+      const masked = mask.build(text, 'phone');
+      expect(masked).to.be.equal('(1');
     });
-    it('should return complete phone formatted with sequence and limit characters', () => {
-      const masked = mask.build('1234567891234567', 'phone');
+    it('should return complete phone formatted', () => {
+      text += '2';
+      const masked = mask.build(text, 'phone');
+      expect(masked).to.be.equal('(12');
+    });
+    it('should return complete phone formatted', () => {
+      text += '3';
+      const masked = mask.build(text, 'phone');
+      expect(masked).to.be.equal('(12)3');
+    });
+    it('should return complete phone formatted', () => {
+      text += '4';
+      const masked = mask.build(text, 'phone');
+      expect(masked).to.be.equal('(12)34');
+    });
+    it('should return complete phone formatted', () => {
+      text += '5';
+      const masked = mask.build(text, 'phone');
+      expect(masked).to.be.equal('(12)345');
+    });
+    it('should return complete phone formatted', () => {
+      text += '6';
+      const masked = mask.build(text, 'phone');
+      expect(masked).to.be.equal('(12)3456');
+    });
+    it('should return complete phone formatted', () => {
+      text += '7';
+      const masked = mask.build(text, 'phone');
+      expect(masked).to.be.equal('(12)3456-7');
+    });
+    it('should return complete phone formatted', () => {
+      text += '8';
+      const masked = mask.build(text, 'phone');
+      expect(masked).to.be.equal('(12)3456-78');
+    });
+    it('should return complete phone formatted', () => {
+      text += '9';
+      const masked = mask.build(text, 'phone');
+      expect(masked).to.be.equal('(12)3456-789');
+    });
+    it('should return complete phone formatted', () => {
+      text += '1';
+      const masked = mask.build(text, 'phone');
       expect(masked).to.be.equal('(12)3456-7891');
     });
-    it('should return complete phone formatted with parameters letters and numbers randomly interspersed', () => {
-      const masked = mask.build('1A2A5N52D26DAS51DKD581D2K12', 'phone');
-      expect(masked).to.be.equal('(12)5522-6515');
+  });
+
+  describe('simulate dynamic numbers insert with string format', () => {
+
+    const mask = new Mask();
+    let text = '';
+
+    it('should return complete phone formatted', () => {
+      text += '1';
+      const masked = mask.exec(text, '(##)####-####');
+      expect(masked).to.be.equal('(1');
     });
-    it('should return partial phone with placehold(underscore) complete formatted with parameters letters and numbers randomly interspersed', () => {
-      const masked = mask.build('1DSA11A', 'phone', '_');
-      expect(masked).to.be.equal('(11)1___-____');
+    it('should return complete phone formatted', () => {
+      text += '2';
+      const masked = mask.exec(text, '(##)####-####');
+      expect(masked).to.be.equal('(12');
     });
-    it('should return partial phone formatted', () => {
-      const masked = mask.build('1111', 'phone');
-      expect(masked).to.be.equal('(11)11');
+    it('should return complete phone formatted', () => {
+      text += '3';
+      const masked = mask.exec(text, '(##)####-####');
+      expect(masked).to.be.equal('(12)3');
     });
-    it('should return partial phone formatted with placehold(space)', () => {
-      const masked = mask.build('111', 'phone', ' ');
-      expect(masked).to.be.equal('(11)1   -    ');
+    it('should return complete phone formatted', () => {
+      text += '4';
+      const masked = mask.exec(text, '(##)####-####');
+      expect(masked).to.be.equal('(12)34');
     });
-    it('should return placehold(underscore) complete phone formatted', () => {
-      const masked = mask.build('', 'phone', '_');
-      expect(masked).to.be.equal('(__)____-____');
+    it('should return complete phone formatted', () => {
+      text += '5';
+      const masked = mask.exec(text, '(##)####-####');
+      expect(masked).to.be.equal('(12)345');
+    });
+    it('should return complete phone formatted', () => {
+      text += '6';
+      const masked = mask.exec(text, '(##)####-####');
+      expect(masked).to.be.equal('(12)3456');
+    });
+    it('should return complete phone formatted', () => {
+      text += '7';
+      const masked = mask.exec(text, '(##)####-####');
+      expect(masked).to.be.equal('(12)3456-7');
+    });
+    it('should return complete phone formatted', () => {
+      text += '8';
+      const masked = mask.exec(text, '(##)####-####');
+      expect(masked).to.be.equal('(12)3456-78');
+    });
+    it('should return complete phone formatted', () => {
+      text += '9';
+      const masked = mask.exec(text, '(##)####-####');
+      expect(masked).to.be.equal('(12)3456-789');
+    });
+    it('should return complete phone formatted', () => {
+      text += '1';
+      const masked = mask.exec(text, '(##)####-####');
+      expect(masked).to.be.equal('(12)3456-7891');
     });
   });
 });

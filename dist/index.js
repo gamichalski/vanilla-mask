@@ -7,29 +7,39 @@ function _interopDefault (ex) { return (ex && (typeof ex === 'object') && 'defau
 var _classCallCheck = _interopDefault(require('babel-runtime/helpers/classCallCheck'));
 var _createClass = _interopDefault(require('babel-runtime/helpers/createClass'));
 
-var config = {
-  cpf: [/\d/, /\d/, /\d/, '.', /\d/, /\d/, /\d/, '.', /\d/, /\d/, /\d/, '-', /\d/, /\d/],
-  cnpj: [/\d/, /\d/, '.', /\d/, /\d/, /\d/, '.', /\d/, /\d/, /\d/, '/', /\d/, /\d/, /\d/, /\d/, '-', /\d/, /\d/],
-  date: [/\d/, /\d/, '/', /\d/, /\d/, '/', /\d/, /\d/, /\d/, /\d/],
-  datetime: [/\d/, /\d/, '/', /\d/, /\d/, '/', /\d/, /\d/, /\d/, /\d/, ' ', /\d/, /\d/, ':', /\d/, /\d/, ':', /\d/, /\d/],
-  phone: ['(', /\d/, /\d/, ')', /\d/, /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/],
-  time: [/\d/, /\d/, ':', /\d/, /\d/, ':', /\d/, /\d/],
-  zipcode: [/\d/, /\d/, /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/]
-};
-
 var Mask = function () {
-  function Mask() {
+  function Mask(config) {
     _classCallCheck(this, Mask);
 
     this.config = config;
   }
 
   _createClass(Mask, [{
-    key: 'build',
-    value: function build(text, format) {
-      var defaultValue = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : '';
+    key: 'exec',
+    value: function exec(text, mask, placeholder) {
+      var chars = mask.split('');
+      var regexp = [];
 
-      var regexp = this.config[format];
+      for (var index = 0; index < chars.length; index += 1) {
+        switch (chars[index]) {
+          case '#':
+            regexp.push(/\d/);break;
+          case 'A':
+            regexp.push(/[a-z]/i);break;
+          case 'N':
+            regexp.push(/[a-z0-9]/i);break;
+          default:
+            regexp.push(chars[index]);break;
+        }
+      }
+      return this.build(text, regexp, placeholder);
+    }
+  }, {
+    key: 'build',
+    value: function build(text, mask) {
+      var placeholder = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : '';
+
+      var regexp = Array.isArray(mask) ? mask : this.config[mask];
       var chars = text.split('');
       var formated = [];
 
@@ -41,9 +51,9 @@ var Mask = function () {
           } else if (chars[indexChars]) {
             index -= 1;
           } else {
-            formated.push(defaultValue);
+            formated.push(placeholder);
           }
-        } else if (chars[indexChars + 1] || defaultValue) {
+        } else if (chars[indexChars] || placeholder) {
           formated.push(regexp[index]);
           indexChars -= 1;
         }
