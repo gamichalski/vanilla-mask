@@ -1,4 +1,4 @@
-# Vanilla mask 0.0.5-beta
+# Vanilla mask 1.0.0
 
 It's a pure JavaScript mask input.
 Now you can use a simple and pure javascript lib to mask your input elements, without need to load jQuery.
